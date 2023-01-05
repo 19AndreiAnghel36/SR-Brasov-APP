@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>STEGARI VOLUNTARI!</title>
+</head>
+<body>
+
+<div class="login-form">
+  <h1>Intr&#259 &#238n cont</h1>
+
+  <form th:action="@{/process_login}" th:object="${user}" th:method="post">
+
+    <div class="text-field">
+    <br><label for="email"></label><br>
+    <input type="email" id="email" th:name="email" placeholder="Email">
+    <br><label for="password"></label><br>
+    <input type="password" id="password" th:name="password" placeholder="Parola"><br>
+    </div>
+
+    <div class="forgot-pass">
+      <a th:href="@{/forgot-password}"><h3>Ai uitat parola?</h3></a>
+    </div>
+
+    <a th:ref="@{/}">
+      <input type="submit" name="submit" value="Submit">
+    </a>
+  </form>
+
+  <div class="redirect-register">
+    <h3>Nu ai un cont? <a th:href="@{/register_form}"> Inregistreaz&#259-te </a></h3>
+  </div>
+</div>
+</body>
+</html>
