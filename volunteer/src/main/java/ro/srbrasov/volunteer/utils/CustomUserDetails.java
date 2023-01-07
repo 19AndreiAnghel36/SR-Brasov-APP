@@ -1,19 +1,24 @@
 package ro.srbrasov.volunteer.utils;
 
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ro.srbrasov.volunteer.entity.Role;
 import ro.srbrasov.volunteer.entity.User;
-
 import java.util.Collection;
+import java.util.List;
 
-@AllArgsConstructor
 public class CustomUserDetails implements UserDetails {
     private User user;
+    private Role role;
+
+    public CustomUserDetails(User user) {
+        this.user = user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override
