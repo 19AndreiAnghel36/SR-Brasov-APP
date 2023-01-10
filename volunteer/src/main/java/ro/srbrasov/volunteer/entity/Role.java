@@ -10,12 +10,20 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity(name = "roles")
 @Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+
+    public Role(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

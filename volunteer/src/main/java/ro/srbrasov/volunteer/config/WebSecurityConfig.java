@@ -27,7 +27,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         security.authorizeHttpRequests()
-                .requestMatchers("/register", "/register_success", "/process_register").anonymous()
+                .requestMatchers("/give-admin/**", "/user", "/make-admin").hasAuthority("Admin")
+                .requestMatchers("/register", "/register-success", "/process-register").anonymous()
                 .and()
                 .authorizeHttpRequests()
                 .anyRequest().authenticated()

@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ro.srbrasov.volunteer.entity.User;
-import ro.srbrasov.volunteer.repository.UserRepository;
 import ro.srbrasov.volunteer.service.UserService;
 
 @Controller
@@ -20,13 +19,13 @@ public class RegisterController {
         return "register_form";
     }
 
-    @PostMapping("/process_register")
+    @PostMapping("/process-register")
     public String processRegister(User user){
         service.saveUser(user);
         return "register_success";
     }
 
-    @GetMapping("/register_success")
+    @GetMapping("/register-success")
     public String showSuccessPage(){
         return "register_success";
     }

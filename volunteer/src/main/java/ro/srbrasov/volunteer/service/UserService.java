@@ -23,4 +23,13 @@ public class UserService {
         user.addRole(role);
         userRepository.save(user);
     }
+
+    public void makeUserAdmin(Long userId){
+        User user = userRepository.findById(userId).get();
+        Role roleUser = roleRepository.findByName("User");
+        user.addRole(roleUser);
+        Role roleAdmin = new Role(2L);
+        user.addRole(roleAdmin);
+        userRepository.save(user);
+    }
 }

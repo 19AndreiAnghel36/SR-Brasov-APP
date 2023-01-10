@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>STEGARI VOLUNTARI!</title>
+</head>
+<body>
+
+<table class="users_table">
+    <button>
+
+    </button>
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>Email</th>
+        <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${listUsers}">
+        <td th:text="${user.id}">User ID</td>
+        <td th:text="${user.email}">Email</td>
+        <td th:text="${user.roles}">Role</td>
+        <td><a th:href="@{/give-admin/{id}(id=${user.id})}">Make Admin</a></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+</html>
