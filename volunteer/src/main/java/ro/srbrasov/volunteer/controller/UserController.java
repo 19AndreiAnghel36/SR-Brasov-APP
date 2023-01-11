@@ -31,11 +31,18 @@ public class UserController {
     @GetMapping("/give-admin/{id}")
     public String giveAdminToAUser(@PathVariable("id") Long userId){
         service.makeUserAdmin(userId);
-        return "make_admin";
+        return "success_page";
     }
 
-    @GetMapping("/make-admin")
+    @GetMapping("/success-page")
     public String showSuccessPage(){
-        return "make_admin";
+        return "success_page";
+    }
+
+    @GetMapping("/delete-user/{id}")
+    public String deleteUser(@PathVariable("id") Long userId){
+        User user = repository.findById(userId).get();
+        repository.delete(user);
+        return "success_page";
     }
 }

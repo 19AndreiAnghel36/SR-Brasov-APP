@@ -23,11 +23,9 @@
         <td th:text="${user.email}">Email</td>
         <td th:text="${user.roles}">Role</td>
         <td><a th:href="@{/give-admin/{id}(id=${user.id})}">Make Admin</a></td>
+        <td><a th:href="@{/delete-user/{id}(id=${user.id})}"> Delete User</a></td>
     </tr>
     </tbody>
 </table>
-
-
-
 </body>
 </html>
