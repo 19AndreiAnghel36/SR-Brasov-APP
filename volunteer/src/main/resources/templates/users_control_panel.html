@@ -7,9 +7,6 @@
 <body>
 
 <table class="users_table">
-    <button>
-
-    </button>
     <thead>
     <tr>
         <th>User ID</th>
@@ -17,12 +14,17 @@
         <th>Role</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="user: ${listUsers}">
         <td th:text="${user.id}">User ID</td>
         <td th:text="${user.email}">Email</td>
         <td th:text="${user.roles}">Role</td>
-        <td><a th:href="@{/give-admin/{id}(id=${user.id})}">Make Admin</a></td>
+
+        <div th:if="${#authorization.expression('hasAuthority(''Moderator'')')}">
+            <td><a th:href="@{/give-admin/{id}(id=${user.id})}">Make Admin</a></td>
+        </div>
+
         <td><a th:href="@{/delete-user/{id}(id=${user.id})}"> Delete User</a></td>
     </tr>
     </tbody>
