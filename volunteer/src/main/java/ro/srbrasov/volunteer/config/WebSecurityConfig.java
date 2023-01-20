@@ -30,7 +30,6 @@ public class WebSecurityConfig {
                 .requestMatchers("/give-admin/**").hasAuthority("Moderator")
 
                 .requestMatchers("/user", "/delete-user",
-                                 "/add-event", "/delete-event/**",
                                  "/add-job", "/delete-job/**")
                 .hasAuthority("Admin")
 

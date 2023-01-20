@@ -34,7 +34,16 @@ public class User {
     )
     Set<Role> roles = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "volunteers",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "works_id")
+    )
+    Set<Job> jobs = new HashSet<>();
+
     public void addRole(Role role){
         this.roles.add(role);
     }
+    public void addJob(Job job){this.jobs.add(job);}
 }

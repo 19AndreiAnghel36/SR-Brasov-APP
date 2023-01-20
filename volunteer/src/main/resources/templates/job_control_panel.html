@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>STEGARI VOLUNTARI!</title>
+</head>
+<body>
+
+<table class="table">
+
+  <div class="table-header">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Job</th>
+  </tr>
+  </thead>
+  </div>
+
+  <div class="table-body">
+  <tbody>
+  <tr th:each="job: ${listJobs}">
+    <td th:text="${job.id}">Id</td>
+    <td th:text="${job.name}">Job</td>
+    <td> <a th:href="@{/details/{id}(id=${job.id})}">Detalii</a> </td>
+    <td> <a th:href="@{/become-volunteer/{jobId}(jobId=${job.id})}">Devin-o voluntar</a></td>
+    <div th:if="${#authorization.expression('hasAuthority(''Admin'')')}">
+    <td><a th:href="@{/delete-job/{id}(id=${job.id})}"> Sterge Job</a></td>
+    </div>
+  </tr>
+  </tbody>
+  </div>
+
+  <div th:if="${#authorization.expression('hasAuthority(''Admin'')')}">
+    <a th:href="@{/add-job}">
+      <input type="button" name="button" value="Adauga Job">
+    </a>
+  </div>
+
+</table>
+</body>
+</html>

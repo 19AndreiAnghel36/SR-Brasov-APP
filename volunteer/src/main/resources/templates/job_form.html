@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>STEGARI VOLUNTARI!</title>
+</head>
+<body>
+
+<div class="register-form">
+    <h1>Adaug&#259 un job</h1>
+    <form th:action="@{/add-job}" th:object="${job}" th:method="post">
+
+        <div classs ="text-field">
+            <br><label for="name"></label><br>
+            <input type="text" id="name" th:name="name" placeholder="Nume">
+        </div>
+
+        <div class = "submit">
+            <a th:ref="@{/success_page}">
+                <input type="submit" name="submit" value="Submit">
+            </a>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
