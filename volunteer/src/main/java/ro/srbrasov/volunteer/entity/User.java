@@ -38,7 +38,7 @@ public class User {
     @JoinTable(
             name = "volunteers",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "works_id")
+            inverseJoinColumns = @JoinColumn(name = "work_id")
     )
     Set<Job> jobs = new HashSet<>();
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>STEGARI VOLUNTARI!</title>
+</head>
+<body>
+
+<table class="table">
+
+  <div class="table-header">
+    <thead>
+    <tr>
+      <th>UserID</th>
+      <th>JobID</th>
+      <th>PhoneNumber</th>
+    </tr>
+    </thead>
+  </div>
+
+  <div class="table-body">
+    <tbody>
+    <tr th:each="volunteer: ${listVolunteers}">
+      <td th:text="${volunteer.userId}">UserID</td>
+      <td th:text="${volunteer.jobId}">JobID</td>
+      <td th:text="${volunteer.phoneNumber}">PhoneNumber</td>
+    </tr>
+    </tbody>
+  </div>
+
+</table>
+</body>
+</html>

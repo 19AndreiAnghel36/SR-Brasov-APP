@@ -17,11 +17,13 @@ import ro.srbrasov.volunteer.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig {
     @Bean
-    public PasswordEncoder encoder(){return new BCryptPasswordEncoder();
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetails(){return new CustomUserDetailsService();
+    public UserDetailsService userDetails() {
+        return new CustomUserDetailsService();
     }
 
     @Bean
@@ -30,10 +32,11 @@ public class WebSecurityConfig {
                 .requestMatchers("/give-admin/**").hasAuthority("Moderator")
 
                 .requestMatchers("/user", "/delete-user",
-                                 "/add-job", "/delete-job/**")
+                        "/add-job", "/delete-job/**")
                 .hasAuthority("Admin")
 
-                .requestMatchers("/register", "/register-success", "/process-register").permitAll()
+                .requestMatchers("/register", "/register-success", "/process-register",
+                        "/forgot-password").permitAll()
 
                 .and()
                 .authorizeHttpRequests()
