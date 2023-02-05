@@ -21,28 +21,34 @@ public class UserController {
 
     private User user;
 
-    @GetMapping("/user")
+    @GetMapping("/admin/operation-success")
+    public String showSuccessPage(){
+        return "admin_operation_success";
+    }
+
+    @GetMapping("/users-control-panel")
     public String showControlPanel(Model model){
         List<User> listUsers = repository.findAll();
         model.addAttribute("listUsers", listUsers);
-        return "users_control_panel";
+        return "control_panel/users_control_panel";
     }
 
     @GetMapping("/give-admin/{id}")
     public String giveAdminToAUser(@PathVariable("id") Long userId){
         service.makeUserAdmin(userId);
-        return "success_page";
-    }
-
-    @GetMapping("/success-page")
-    public String showSuccessPage(){
-        return "success_page";
+        return "success_page/admin_operation_success";
     }
 
     @GetMapping("/delete-user/{id}")
     public String deleteUser(@PathVariable("id") Long userId){
         User user = repository.findById(userId).get();
         repository.delete(user);
-        return "success_page";
+        return "success_page/admin_operation_success";
+    }
+
+    @GetMapping("/retrieve-admin/{id}")
+    public String retrieveAdmin(@PathVariable("id") Long userId){
+        service.retrieveAdmin(userId);
+        return "success_page/admin_operation_success";
     }
 }

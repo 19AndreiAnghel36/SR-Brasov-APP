@@ -29,11 +29,12 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         security.authorizeHttpRequests()
-                .requestMatchers("/give-admin/**").hasAuthority("Moderator")
+                .requestMatchers("/give-admin/**", "/retrieve-admin/**").hasAuthority("Moderator")
 
-                .requestMatchers("/user", "/delete-user",
-                        "/add-job", "/delete-job/**")
-                .hasAuthority("Admin")
+                .requestMatchers("/users-control-panel", "/delete-user",
+                        "/add-job", "/delete-job/**",
+                        "/volunteers")
+                .hasAnyAuthority("Admin", "Moderator")
 
                 .requestMatchers("/register", "/register-success", "/process-register",
                         "/forgot-password").permitAll()

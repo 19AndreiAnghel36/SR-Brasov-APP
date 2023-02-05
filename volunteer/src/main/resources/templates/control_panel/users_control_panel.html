@@ -12,6 +12,7 @@
         <th>User ID</th>
         <th>Email</th>
         <th>Role</th>
+        <th th:if="${#authorization.expression('hasAuthority(''Moderator'')')}">Action</th>
     </tr>
     </thead>
 
@@ -19,15 +20,20 @@
     <tr th:each="user: ${listUsers}">
         <td th:text="${user.id}">User ID</td>
         <td th:text="${user.email}">Email</td>
-        <td th:text="${user.roles}">Role</td>
+        <td th:text="${user.role}">Role</td>
 
-        <div th:if="${#authorization.expression('hasAuthority(''Moderator'')')}">
-            <td><a th:href="@{/give-admin/{id}(id=${user.id})}">Make Admin</a></td>
-        </div>
-
+        <td th:if="${#authorization.expression('hasAuthority(''Moderator'')')}">
+            <span th:if="${user.role.name == 'Admin'}">
+                <a th:href="@{/retrieve-admin/{id}(id=${user.id})}">Retrieve Admin</a>
+            </span>
+            <span th:if="${user.role.name != 'Admin'}">
+                <a th:href="@{/give-admin/{id}(id=${user.id})}">Give Admin</a>
+            </span>
+        </td>
         <td><a th:href="@{/delete-user/{id}(id=${user.id})}"> Delete User</a></td>
     </tr>
     </tbody>
 </table>
+
 </body>
 </html>

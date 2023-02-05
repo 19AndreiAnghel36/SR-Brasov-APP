@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ro.srbrasov.volunteer.entity.Job;
 import ro.srbrasov.volunteer.repository.JobRepository;
-import ro.srbrasov.volunteer.service.VolunteerService;
 
 import java.util.List;
 
@@ -17,32 +16,30 @@ public class JobController {
     @Autowired
     private JobRepository repository;
 
-    private VolunteerService volunteerService;
-
-    @GetMapping("/works")
+    @GetMapping("/available-jobs")
     public String showJobControlPanel(Model model) {
         List<Job> listJobs = repository.findAll();
         model.addAttribute("listJobs", listJobs);
-        return "job_control_panel";
+        return "control_panel/job_control_panel";
     }
 
     @GetMapping("/add-job")
     public String showJobForm(Model model) {
         model.addAttribute("job", new Job());
-        return "job_form";
+        return "form/job_form";
     }
 
     @PostMapping("/add-job")
     public String addEvent(Job job) {
         repository.save(job);
-        return "success_page";
+        return "success_page/job_operation_success";
     }
 
     @GetMapping("/delete-job/{id}")
     public String deleteEvent(@PathVariable("id") Long jobId) {
         Job job = repository.findById(jobId).get();
         repository.delete(job);
-        return "success_page";
+        return "success_page/job_operation_success";
     }
 
     @GetMapping("/details/{id}")

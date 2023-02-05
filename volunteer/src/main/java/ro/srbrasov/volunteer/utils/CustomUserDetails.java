@@ -9,11 +9,9 @@ import ro.srbrasov.volunteer.entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
     private User user;
-    private Role role;
 
     public CustomUserDetails(User user) {
         this.user = user;
@@ -21,10 +19,10 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = user.getRoles();
+        Role role = user.getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for(Role r : roles){
-            authorities.add(new SimpleGrantedAuthority(r.getName()));
+        if(role != null){
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
     }

@@ -16,17 +16,17 @@ public class RegisterController {
     @GetMapping("/register")
     public String showRegisterForm(Model model){
         model.addAttribute("user", new User());
-        return "register_form";
+        return "form/register_form";
     }
 
     @PostMapping("/process-register")
     public String processRegister(User user){
         service.saveUser(user);
-        return "register_success";
+        return "success_page/register_success";
     }
 
     @GetMapping("/register-success")
     public String showSuccessPage(){
-        return "register_success";
+        return "success_page/register_success";
     }
 }

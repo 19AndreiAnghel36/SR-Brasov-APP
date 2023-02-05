@@ -15,21 +15,48 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    /**
+     * Save user to database with encrypted password and role 'User' by default.
+     * @param user - user that will be saved.
+     */
     public void saveUser(User user){
+        // create password encoder
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        // encode user password
         String encodedPassword = passwordEncoder.encode(user.getPassword());
+        // set the encoded password on the user object
         user.setPassword(encodedPassword);
-        Role role = roleRepository.findByName("User");
-        user.addRole(role);
+        // retrieve the 'User' role from the repository
+        Role userRole = roleRepository.findByName("User");
+        // add the 'User' role to the user object
+        user.setRole(userRole);
+        // save the user to the database
         userRepository.save(user);
     }
 
+    /**
+     * Give 'Admin' to a user.
+     * @param userId - user id
+     */
     public void makeUserAdmin(Long userId){
+        // find the user
         User user = userRepository.findById(userId).get();
-        Role roleUser = roleRepository.findByName("User");
-        user.addRole(roleUser);
-        Role roleAdmin = new Role(2L);
-        user.addRole(roleAdmin);
+        // set 'Admin' role
+        user.setRole(roleRepository.findByName("Admin"));
+        // save the user to the database
+        userRepository.save(user);
+    }
+
+    /**
+     * Retrieve 'Admin' from a user and make it 'User'.
+     * @param userId - user id.
+     */
+    public void retrieveAdmin(Long userId){
+        // find the user
+        User user = userRepository.findById(userId).get();
+        // set 'User' role
+        user.setRole(roleRepository.findByName("User"));
+        // save the user to the database
         userRepository.save(user);
     }
 }

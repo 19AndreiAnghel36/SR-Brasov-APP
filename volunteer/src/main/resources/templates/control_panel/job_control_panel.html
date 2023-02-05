@@ -24,14 +24,14 @@
     <td th:text="${job.name}">Job</td>
     <td> <a th:href="@{/details/{id}(id=${job.id})}">Detalii</a> </td>
     <td> <a th:href="@{/become-volunteer/{jobId}(jobId=${job.id})}">Devin-o voluntar</a></td>
-    <div th:if="${#authorization.expression('hasAuthority(''Admin'')')}">
+    <div th:if="${#authorization.expression('hasAnyAuthority(''Admin'', ''Moderator'')')}">
     <td><a th:href="@{/delete-job/{id}(id=${job.id})}"> Sterge Job</a></td>
     </div>
   </tr>
   </tbody>
   </div>
 
-  <div th:if="${#authorization.expression('hasAuthority(''Admin'')')}">
+  <div th:if="${#authorization.expression('hasAnyAuthority(''Admin'', ''Moderator'')')}">
     <a th:href="@{/add-job}">
       <input type="button" name="button" value="Adauga Job">
     </a>

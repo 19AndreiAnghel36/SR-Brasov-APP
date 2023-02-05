@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,10 +19,12 @@ public class Role {
     private Long id;
     private String name;
 
+    @OneToMany(mappedBy = "role")
+    private Set<User> users;
+
     public Role(Long id) {
         this.id = id;
     }
-
     @Override
     public String toString() {
         return this.name;

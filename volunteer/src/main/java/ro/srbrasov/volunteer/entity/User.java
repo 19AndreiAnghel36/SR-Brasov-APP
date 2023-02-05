@@ -26,13 +26,9 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    Set<Role> roles = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -42,8 +38,5 @@ public class User {
     )
     Set<Job> jobs = new HashSet<>();
 
-    public void addRole(Role role){
-        this.roles.add(role);
-    }
     public void addJob(Job job){this.jobs.add(job);}
 }
