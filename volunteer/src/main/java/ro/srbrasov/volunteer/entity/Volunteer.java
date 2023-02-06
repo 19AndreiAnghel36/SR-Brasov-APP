@@ -17,12 +17,19 @@ public class Volunteer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "work_id")
-    private Long jobId;
-
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name="job_id")
+    private Job job;
+
+    public Volunteer(User user, Job job) {
+        this.user = user;
+        this.job = job;
+    }
 }

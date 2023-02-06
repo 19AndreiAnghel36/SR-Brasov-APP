@@ -21,8 +21,8 @@
   <div class="table-body">
     <tbody>
     <tr th:each="volunteer: ${listVolunteers}">
-      <td th:text="${volunteer.userId}">UserID</td>
-      <td th:text="${volunteer.jobId}">JobID</td>
+      <td th:text="${volunteer.user.name}">UserID</td>
+      <td th:text="${volunteer.job.name}">JobID</td>
       <td th:text="${volunteer.phoneNumber}">PhoneNumber</td>
     </tr>
     </tbody>

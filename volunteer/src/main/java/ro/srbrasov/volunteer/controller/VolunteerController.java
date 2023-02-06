@@ -24,24 +24,31 @@ public class VolunteerController {
     public String showVolunteersControlPanel(Model model){
         List<Volunteer> listVolunteers = repository.findAll();
         model.addAttribute("listVolunteers", listVolunteers);
-        return "volunteer_control_panel";
+        return "control_panel/volunteer_control_panel";
     }
 
     @GetMapping("/become-volunteer/{jobId}")
     public String becomeVolunteer(@PathVariable("jobId") Long jobId) {
         service.becomeVolunteer(jobId);
-        return "become_volunteer_form";
+        return "form/become_volunteer_form";
     }
 
     @GetMapping("/become-volunteer")
     public String showBecomeVolunteerForm(Model model, String phoneNumber){
         model.addAttribute("phoneNumber", phoneNumber);
-        return "become_volunteer_form";
+        return "form/become_volunteer_form";
     }
 
     @PostMapping("/become-volunteer")
     public String processPhoneNumber(String phoneNumber){
         service.setPhoneNumber(phoneNumber);
+        return "success_page";
+    }
+
+    @GetMapping("/delete-volunteer/{id}")
+    public String deleteVolunteer(@PathVariable("id") Long volunteerId){
+        Volunteer volunteer = repository.findById(volunteerId).get();
+        repository.delete(volunteer);
         return "success_page";
     }
 

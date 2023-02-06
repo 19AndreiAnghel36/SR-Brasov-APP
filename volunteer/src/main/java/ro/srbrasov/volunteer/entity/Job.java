@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,4 +19,10 @@ public class Job {
     private Long id;
     @Column(name = "name")
     private String name;
+    @OneToMany(mappedBy = "job")
+    private Set<User> users;
+    @Column(name = "volunteers_count")
+    private long volunteersCount;
+    @Column(name = "max_volunteers")
+    private long maxVolunteers;
 }

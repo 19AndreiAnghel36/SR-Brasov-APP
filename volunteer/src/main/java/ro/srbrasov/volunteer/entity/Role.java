@@ -22,9 +22,6 @@ public class Role {
     @OneToMany(mappedBy = "role")
     private Set<User> users;
 
-    public Role(Long id) {
-        this.id = id;
-    }
     @Override
     public String toString() {
         return this.name;

@@ -21,24 +21,49 @@ public class VolunteerService {
     @Autowired
     private VolunteerRepository volunteerRepository;
 
-
+    /**
+     * Add volunteer to database.
+     * @param jobId - job id.
+     */
     public void becomeVolunteer(Long jobId) {
+        // get logged-in user information
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email);
+        // find logged-in user in database
+        User user = userRepository.findByEmail(userDetails.getUsername());
+        // find job in database
         Job job = jobRepository.findById(jobId).get();
-        user.addJob(job);
+        // check job's availability
+        checkVolunteerNumbers(job);
+        // add job to user and save user to database
+        user.setJob(job);
         userRepository.save(user);
+        // create new volunteer and save it in database
+        Volunteer volunteer = new Volunteer(user, jobRepository.findById(jobId).get());
+        volunteerRepository.save(volunteer);
     }
 
+    /**
+     * Add user's phone number.
+     * @param phoneNumber - phone number.
+     */
     public void setPhoneNumber(String phoneNumber) {
+        // get logged-in user information
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email);
+        // find logged-in user in database
+        User user = userRepository.findByEmail(userDetails.getUsername());
+        // find volunteer associated with this user id
         Volunteer volunteer = volunteerRepository.findByUserId(user.getId());
+        // set his phone number and save it
         volunteer.setPhoneNumber(phoneNumber);
         volunteerRepository.save(volunteer);
+    }
+
+    private void checkVolunteerNumbers(Job job){
+        if (job.getVolunteersCount() >= job.getMaxVolunteers()) {
+            throw new IllegalStateException("Numarul de voluntari pentru aceasta pozitie a fost atins. Puteti incerca o alta pozitite. Multumim!");
+        }
+        job.setVolunteersCount(job.getVolunteersCount() + 1);
     }
 }
