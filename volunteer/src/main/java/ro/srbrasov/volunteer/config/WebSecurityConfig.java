@@ -27,27 +27,24 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
-        security.authorizeHttpRequests()
-                .requestMatchers("/give-admin/**", "/retrieve-admin/**").hasAuthority("Moderator")
-
-                .requestMatchers("/users-control-panel", "/delete-user",
-                        "/add-job", "/delete-job/**",
-                        "/volunteers")
-                .hasAnyAuthority("Admin", "Moderator")
-
-                .requestMatchers("/register", "/register-success", "/process-register",
-                        "/forgot-password").permitAll()
-
-                .and()
-                .authorizeHttpRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login")
-                .usernameParameter("email")
-                .loginProcessingUrl("/process_login")
-                .permitAll();
-        return security.build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests((authorizeHttpRequests) ->
+                        authorizeHttpRequests
+                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                                .requestMatchers("/give-admin/**", "/retrieve-admin/**").hasAuthority("Moderator")
+                                .requestMatchers("/users-control-panel", "/delete-user", "/add-job", "/delete-job/**", "/volunteers").hasAnyAuthority("Admin", "Moderator")
+                                .requestMatchers("/authentication/register", "/register-success", "/process-register", "/forgot-password").permitAll()
+                )
+                .formLogin((formLogin) ->
+                        formLogin
+                                .usernameParameter("email")
+                                .passwordParameter("password")
+                                .loginPage("/authentication/login")
+                                .loginProcessingUrl("/process_login")
+                                .permitAll()
+                );
+        return http.build();
     }
 
     @Bean
@@ -62,4 +59,6 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+
 }
