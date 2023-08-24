@@ -3,30 +3,49 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>STEGARI VOLUNTARI!</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <link th:href="@{/css/register.css}" rel="stylesheet">
 </head>
 <body>
+<div class="header-image">
+    <img src="/images/loginIMG.png" alt="Imagine Header" onclick="scrollToSection('info-section')">
+</div>
 
-<div class="register-form">
-    <h1>&#206nregistreaz&#259-te</h1>
-    <form th:action="@{/process-register}" th:object="${user}" th:method="post">
+<div class="register-box">
+    <h2>&#206nregistreaz&#259-te</h2>
+    <form th:action="@{/authentication/process-register}" th:object="${user}" th:method="post">
 
-        <div classs ="text-field">
-        <br><label for="name"></label><br>
-        <input type="text" id="name" th:name="name" placeholder="Nume" required minlength="3">
-        <br><label for="email"></label><br>
-        <input type="email" id="email" th:name="email" placeholder="Email">
-        <br><label for="password"></label><br>
-        <input type="password" id="password" th:name="password" placeholder="Parola" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}"
-               title="Parola trebuie s&#259 con&#355in&#259 minim 5 caractere(minim o liter&#259 mare, o liter&#259 mic&#259, &#351i o cifr&#259)"><br>
+        <div class ="user-box">
+            <input type="text" name="name" required="">
+            <label>Name</label>
         </div>
 
-        <div class = "submit">
-            <a th:ref="@{/register_success}">
-                <input type="submit" name="submit" value="Submit">
-            </a>
+        <div class="user-box">
+            <input type="email" name="email" required="">
+            <label>Email</label>
         </div>
 
+        <div class="user-box">
+            <input type="password" name="password" required="">
+            <label>Password</label>
+        </div>
+
+        <div class="submit-box">
+            <button type="submit" class="submit-button">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Submit
+            </button>
+        </div>
     </form>
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
 </div>
 </body>
 </html>

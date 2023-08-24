@@ -34,14 +34,17 @@ public class WebSecurityConfig {
                                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers("/give-admin/**", "/retrieve-admin/**").hasAuthority("Moderator")
                                 .requestMatchers("/users-control-panel", "/delete-user", "/add-job", "/delete-job/**", "/volunteers").hasAnyAuthority("Admin", "Moderator")
-                                .requestMatchers("/authentication/register", "/register-success", "/process-register", "/forgot-password").permitAll()
+                                .requestMatchers("/authentication/register",
+                                        "authentication/register-success",
+                                        "authentication/process-register",
+                                        "/forgot-password",
+                                        "/info/general-info").permitAll()
                 )
                 .formLogin((formLogin) ->
                         formLogin
                                 .usernameParameter("email")
                                 .passwordParameter("password")
                                 .loginPage("/authentication/login")
-                                .loginProcessingUrl("/process_login")
                                 .permitAll()
                 );
         return http.build();
