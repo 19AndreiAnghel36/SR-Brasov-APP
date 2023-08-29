@@ -1,10 +1,12 @@
 package ro.srbrasov.volunteer.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ro.srbrasov.volunteer.entity.Role;
 import ro.srbrasov.volunteer.entity.User;
+import ro.srbrasov.volunteer.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +14,8 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     private User user;
+    @Autowired
+    private UserRepository userRepository;
 
     public CustomUserDetails(User user) {
         this.user = user;
@@ -44,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !user.isLocked();
     }
 
     @Override

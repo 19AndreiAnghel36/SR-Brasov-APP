@@ -1,5 +1,6 @@
 package ro.srbrasov.volunteer.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,11 +12,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ro.srbrasov.volunteer.service.CustomLoginFailure;
+import ro.srbrasov.volunteer.service.CustomLoginSuccess;
 import ro.srbrasov.volunteer.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+    @Autowired
+    CustomLoginFailure loginFailure;
+
+    @Autowired
+    CustomLoginSuccess loginSuccess;
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
@@ -29,23 +38,21 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authorizeHttpRequests) ->
-                        authorizeHttpRequests
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                                .requestMatchers("/give-admin/**", "/retrieve-admin/**").hasAuthority("Moderator")
-                                .requestMatchers("/users-control-panel", "/delete-user", "/add-job", "/delete-job/**", "/volunteers").hasAnyAuthority("Admin", "Moderator")
-                                .requestMatchers("/authentication/register",
-                                        "authentication/register-success",
-                                        "authentication/process-register",
-                                        "/forgot-password",
-                                        "/info/general-info").permitAll()
-                )
+                                .requestMatchers("/authentication/register", "/authentication/register/process", "/authentication/register/success").permitAll()
+                                .anyRequest().authenticated()
+                        )
                 .formLogin((formLogin) ->
                         formLogin
                                 .usernameParameter("email")
                                 .passwordParameter("password")
-                                .loginPage("/authentication/login")
-                                .permitAll()
+                                .loginPage("/authentication/login").permitAll()
+                                .failureUrl("/authentication/login?failed")
+                                .loginProcessingUrl("/authentication/login/process")
+                                .defaultSuccessUrl("/", true)
+                                .failureHandler(loginFailure)
+                                .successHandler(loginSuccess)
                 );
         return http.build();
     }
@@ -62,6 +69,5 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
 
 }

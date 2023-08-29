@@ -1,6 +1,8 @@
 package ro.srbrasov.volunteer.error;
 
-public class EmailOrPasswordInvalid extends RuntimeException{
+import org.springframework.security.core.AuthenticationException;
+
+public class EmailOrPasswordInvalid extends AuthenticationException {
     public EmailOrPasswordInvalid(String message){
         super(message);
     }

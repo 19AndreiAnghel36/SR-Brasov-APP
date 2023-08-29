@@ -11,12 +11,12 @@
 </head>
 <body>
 <div class="header-image">
-    <img src="/images/loginIMG.png" alt="Imagine Header" onclick="scrollToSection('info-section')">
+    <img src="/images/loginIMG.png" alt="Imagine Header">
 </div>
 
 <div class="register-box">
     <h2>&#206nregistreaz&#259-te</h2>
-    <form th:action="@{/authentication/process-register}" th:object="${user}" th:method="post">
+    <form th:action="@{/authentication/register/process}" th:object="${user}" th:method="post">
 
         <div class ="user-box">
             <input type="text" name="name" required="">

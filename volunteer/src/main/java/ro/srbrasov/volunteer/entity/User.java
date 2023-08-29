@@ -1,15 +1,16 @@
 package ro.srbrasov.volunteer.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity(name = "users")
 @Table(name = "users")
 public class User {
@@ -28,4 +29,10 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "job_id")
     private Job job;
+    @Column(name = "login_counter")
+    private Integer loginCounter;
+    @Column(name = "lock_end_time")
+    private LocalDateTime lockEndTime;
+    @Column(name = "is_locked")
+    private boolean isLocked;
 }

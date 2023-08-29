@@ -2,14 +2,14 @@ package ro.srbrasov.volunteer.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.srbrasov.volunteer.entity.Role;
 import ro.srbrasov.volunteer.entity.User;
 import ro.srbrasov.volunteer.error.EmailAlreadyExistsException;
-import ro.srbrasov.volunteer.error.EmailOrPasswordInvalid;
 import ro.srbrasov.volunteer.repository.RoleRepository;
 import ro.srbrasov.volunteer.repository.UserRepository;
+
+import java.time.LocalDateTime;
 
 @Service
 public class UserService {
@@ -17,9 +17,6 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder encoder;
 
     /**
      * Save user to database with encrypted password and role 'User' by default.
@@ -34,21 +31,27 @@ public class UserService {
         }
 
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
         Role userRole = roleRepository.findByName("User");
-        user.setRole(userRole);
 
-        userRepository.save(user);
+        User userReturned = User.builder()
+                .email(userEmail)
+                .password(encodedPassword)
+                .role(userRole)
+                .loginCounter(0)
+                .isLocked(false)
+                .build();
+
+        userRepository.save(userReturned);
     }
 
-    public void tryToLogin(String email,
-                           String password){
-        User user = userRepository.findByEmail(email);
-
-        if(user == null || !encoder.matches(password, user.getPassword())){
-            throw new EmailOrPasswordInvalid("Email sau parola introduse gresit!");
-        }
-
+    /**
+     * Check if 30 min ban has passed.
+     * @param user - user that is checked
+     * @return - true if ban has passed or false if it is not.
+     */
+    public boolean canAccountBeUnlocked(User user){
+        LocalDateTime now = LocalDateTime.now();
+        return now.isAfter(user.getLockEndTime());
     }
 
     /**

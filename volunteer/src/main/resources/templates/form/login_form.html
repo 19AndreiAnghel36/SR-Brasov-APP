@@ -1,38 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="ISO-8859-1">
-  <title>STEGARI VOLUNTARI!</title>
+    <meta charset="ISO-8859-1">
+    <title>STEGARI VOLUNTARI!</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
+
 <body>
-
-<div class="login-form">
-  <h1>Intr&#259 &#238n cont</h1>
-
-  <form th:action="@{/process_login}" th:object="${user}" th:method="post">
-
-    <div class="text-field">
-    <br><label for="email"></label><br>
-    <input type="email" id="email" th:name="email" placeholder="Email">
-    <br><label for="password"></label><br>
-    <input type="password" id="password" th:name="password" placeholder="Parola"><br>
-    </div>
-
-    <div class="forgot-pass">
-      <a th:href="@{/forgot-password}"><h3>Ai uitat parola?</h3></a>
-    </div>
-
-    <div class="submit">
-    <a th:ref="@{/}">
-      <input type="submit" name="submit" value="Submit">
-    </a>
-    </div>
-
-  </form>
-
-  <div class="redirect-register">
-    <h3>Nu ai un cont? <a th:href="@{/register}"> Inregistreaz&#259-te </a></h3>
-  </div>
+<div class="header-image">
+    <img src="/images/loginIMG.png" alt="Imagine Header" onclick="scrollToSection('info-section')">
 </div>
+
+<div class="login-box">
+    <h2>Login</h2>
+    <form th:action="@{/authentication/login/process}" th:method="POST">
+        <div class="user-box">
+            <input type="text" th:name="email" required="" th:id="email">
+            <label>Username</label>
+        </div>
+        <div class="user-box">
+            <input type="password" th:name="password" required="" th:id="password">
+            <label>Password</label>
+        </div>
+        <div class="submit-box">
+            <button type="submit" class="submit-button">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Submit
+            </button>
+        </div>
+
+        <div class="redirect-register">
+            <h3>Don't have an account? <a th:href="@{/authentication/register}">Register</a></h3>
+        </div>
+
+        <div th:if="${param.error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+    </form>
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+</div>
+
 </body>
 </html>
